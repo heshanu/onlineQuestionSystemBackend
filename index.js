@@ -63,6 +63,68 @@ app.get('/exams', async (req, res) => {
   }
 })
 
+app.get('/exams/:id', async (req, res) => {
+  try {
+    // Extract exam ID from URL parameters
+    const examId = req.params.id;
+    
+    if (!examId) {
+      return res.status(400).json({ error: 'Missing exam ID in URL' });
+    }
+
+    const { data, error } = await supabase
+      .from('Exams')
+      .select('*')
+      .eq('id', examId);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
+
+    // Return the first matching exam (since ID should be unique)
+    res.json(data[0]);
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/question/exam/:id', async (req, res) => { 
+    try {
+    // Extract exam ID from URL parameters
+    const examId = req.params.id;
+    
+    if (!examId) {
+      return res.status(400).json({ error: 'Missing exam ID in URL' });
+    }
+
+    const { data, error } = await supabase
+      .from('questions')
+      .select('*')
+      .eq('examId', examId);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
+
+    // Return the first matching exam (since ID should be unique)
+    res.json(data);
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
 app.get('/results', async (req, res) => {
      try {
     const { data, error } = await supabase
