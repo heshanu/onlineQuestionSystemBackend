@@ -21,7 +21,7 @@ A full-stack exam platform built with React, Node.js, and Supabase.
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/heshanu/onlineQuestionSystemBackend
+git clone https://github.com/heshanu/onlineQuestionSystemBackend.git
 cd exam-portal
 
 # To add to your project:
